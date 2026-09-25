@@ -5,125 +5,250 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Точки КМЗ</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#14332a">
+<meta name="theme-color" content="#EEF2F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A110F" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@700&display=swap">
 <style>
 :root{
-  --paper:#eceee9; --card:#fff; --ink:#14171a; --mute:#6b7280; --line:#dcded8;
-  --ok:#16794a; --red:#b3271e; --brand:#14332a; --deep:#20463a;
-  --warn:#8e1f14; --warnbg:#fbe4e0; --amb:#7a4d05; --ambbg:#fdf0dc; --pay:#2c4a6b; --paybg:#e6edf5;
+  color-scheme:light;
+  --bg:#EEF2F0; --card:#FFFFFF; --soft:#F4F7F5; --line:#DCE3E0;
+  --ink:#0F1A17; --ink2:#4B5A55; --mute:#8A9793;
+  --brand:#0E5A43; --brand-ink:#FFFFFF; --brand-soft:#DDEDE6;
+  --ok:#1F9D6B; --okbg:#E1F4EB; --red:#D8544A; --redbg:#FBE7E4;
+  --pay:#2F5FD0; --paybg:#E4EBFB; --amb:#A86A12; --ambbg:#FBF0DC; --warn:#B3271E; --warnbg:#FBE4E0;
+  --max:#1F6FF0;
+  --shadow:0 1px 2px rgba(15,26,23,.05),0 6px 20px -10px rgba(15,26,23,.18);
+  --glass:rgba(238,242,240,.86);
+  --f:"Onest",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --d:"Unbounded","Onest",system-ui,sans-serif;
 }
+@media (prefers-color-scheme:dark){:root{
+  color-scheme:dark;
+  --bg:#0A110F; --card:#121B18; --soft:#18231F; --line:#23312C;
+  --ink:#EAF1EE; --ink2:#A8B7B1; --mute:#6E7E78;
+  --brand:#3FC495; --brand-ink:#06140F; --brand-soft:#15332A;
+  --ok:#3FC495; --okbg:#133027; --red:#F0766B; --redbg:#3A1D1A;
+  --pay:#8AA8F5; --paybg:#1A2440; --amb:#E6B45E; --ambbg:#33281A; --warn:#F0766B; --warnbg:#3A1D1A;
+  --max:#4C8DF6;
+  --shadow:0 1px 0 rgba(255,255,255,.03),0 10px 30px -12px rgba(0,0,0,.6);
+  --glass:rgba(10,17,15,.86);
+}}
+[hidden]{display:none!important}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--paper);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  padding-bottom:84px;overscroll-behavior-y:contain}
-header{position:sticky;top:0;z-index:10;background:var(--brand);color:#fff;padding:calc(env(safe-area-inset-top) + 10px) 12px 0}
-.top{display:flex;align-items:baseline;gap:8px;padding-bottom:8px}
-.top b{font-size:17px;font-weight:600}
-.top span{font-size:13px;color:#9fc0b2;margin-left:auto}
-.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+body{background:var(--bg);color:var(--ink);font:16px/1.45 var(--f);-webkit-font-smoothing:antialiased;
+  font-variant-numeric:tabular-nums;padding-bottom:96px;overscroll-behavior-y:contain}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+.app{display:grid;grid-template-columns:272px minmax(0,1fr);max-width:1280px;margin:0 auto}
+/* ---------- sidebar (ПК) ---------- */
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;padding:26px 16px 24px 22px;display:flex;flex-direction:column;gap:22px;border-right:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:40px;height:40px;border-radius:12px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:700 12px var(--d);letter-spacing:.02em}
+.logo b{font:700 17px var(--d);letter-spacing:-.01em;display:block}
+.logo span{font-size:12px;color:var(--mute)}
+.nl{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);padding:0 10px;margin-bottom:6px}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:12px;border:0;background:none;text-align:left;color:var(--ink2);font-size:15px;transition:background .15s,color .15s}
+.nav button:hover{background:var(--soft);color:var(--ink)}
+.nav button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.nav .t{flex:1;font-weight:500;line-height:1.25}
+.nav .t small{display:block;font-weight:400;font-size:12px;color:var(--mute)}
+.nav .n{font-size:12px;color:var(--mute)}
+.ring{width:26px;height:26px;flex:none}
+.ring circle{fill:none;stroke-width:3}
+.ring .b{stroke:var(--line)} .ring .o{stroke:var(--ok);stroke-linecap:round;transition:stroke-dashoffset .4s}
+.ring.full .o{stroke:var(--ok)}
+.side-foot{margin-top:auto;font-size:12px;color:var(--mute);padding:0 10px}
+
+/* ---------- шапка ---------- */
+.col{min-width:0}
+header{position:sticky;top:0;z-index:10;background:var(--glass);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);
+  padding:calc(env(safe-area-inset-top) + 18px) 28px 12px;border-bottom:1px solid transparent}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mute)}
+h1{font:700 26px/1.1 var(--d);letter-spacing:-.02em;margin:5px 0 0}
+.date{font-size:13px;color:var(--ink2);background:var(--card);border:1px solid var(--line);padding:6px 12px;border-radius:999px;white-space:nowrap}
+.stats{margin-top:14px;display:grid;grid-template-columns:auto 1fr;gap:6px 20px;align-items:center}
+.big{font:700 32px/1 var(--d);letter-spacing:-.03em}
+.big small{font:500 13px var(--f);color:var(--mute);letter-spacing:0;margin-left:5px}
+.sbar{height:8px;border-radius:99px;background:var(--line);overflow:hidden;display:flex}
+.sbar i{display:block;height:100%;width:0;transition:width .4s}
+.sbar .ok{background:var(--ok)} .sbar .no{background:var(--red)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:13px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend b{color:var(--ink);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%}
+.stat{font-size:14px;color:var(--ink2);margin-top:12px}
+.tabs{display:none;gap:8px;overflow-x:auto;margin:14px -16px 0;padding:2px 16px 2px;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;border:0;background:var(--deep);color:#cfe3da;font:600 15px/1 system-ui;padding:11px 14px;border-radius:9px}
-.tab[aria-selected=true]{background:#fff;color:var(--brand)}
-.tab i{font-style:normal;font-weight:400;opacity:.75;margin-left:6px}
-.bar{display:flex;gap:8px;padding:0 0 8px}
-.bar input{flex:1;min-width:0;border:0;border-radius:9px;padding:12px 13px;font-size:16px;background:var(--deep);color:#fff}
-.bar input::placeholder{color:#8fb2a3}
-.bar input:focus{outline:2px solid #fff;outline-offset:1px}
-.bar button{flex:0 0 auto;border:0;border-radius:9px;padding:0 13px;font:600 14px/1 system-ui;background:var(--deep);color:#cfe3da}
-.bar button[aria-pressed=true]{background:#5bd39b;color:#0d2a1f}
-.stat{font-size:13px;color:#9fc0b2;padding-bottom:9px}
-.prog{height:3px;background:var(--deep);margin:0 -12px}
-.prog i{display:block;height:100%;background:#5bd39b;width:0;transition:width .2s}
-main{padding:10px 12px}
-.hdr{display:flex;width:100%;align-items:center;gap:8px;margin:12px 0 8px;background:#e2e5e0;border:0;border-radius:10px;
-  padding:14px 13px;font:600 15px/1 system-ui;color:#2d3b34;text-align:left}
-.hdr:first-child{margin-top:0}
-.hdr i{font-style:normal;font-weight:400;color:#77807a;margin-left:auto;font-size:14px}
-.rowwrap{background:var(--card);border-radius:12px;margin-bottom:8px;overflow:hidden;border-left:5px solid transparent}
-.rowwrap.s-ok{border-left-color:var(--ok)}
-.rowwrap.s-no{border-left-color:var(--red)}
-.rowline{display:flex;align-items:center}
-.row{flex:1;min-width:0;background:none;border:0;padding:13px 4px 13px 14px;text-align:left;font:inherit;color:inherit}
-.row b{font-weight:600;font-size:17px;display:block}
-.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
-.tg{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:5px;line-height:1.4}
+.tab{flex:0 0 auto;height:38px;padding:0 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:500;color:var(--ink2);display:inline-flex;align-items:center;gap:7px}
+.tab[aria-selected=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab i{font-style:normal;font-weight:400;opacity:.65;font-size:12px}
+.bar{display:flex;gap:8px;margin-top:14px}
+.srch{flex:1;min-width:0;position:relative}
+.srch svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--mute);pointer-events:none}
+.bar input{width:100%;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 14px 0 42px;font:16px var(--f)}
+.bar input::placeholder{color:var(--mute)}
+.bar input:focus{outline:2px solid var(--brand);outline-offset:0;border-color:transparent}
+#hide{flex:0 0 auto;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink2);padding:0 16px;font-size:14px;font-weight:600}
+#hide[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+
+/* ---------- список ---------- */
+main{padding:6px 28px 20px}
+.sec{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);margin:20px 4px 8px}
+.hdr{display:flex;width:100%;align-items:center;gap:10px;margin:14px 0 8px;background:var(--soft);border:1px solid var(--line);border-radius:14px;
+  padding:14px 16px;font:600 15px/1 var(--f);color:var(--ink);text-align:left}
+.hdr:first-child{margin-top:8px}
+.hdr i{font-style:normal;font-weight:500;color:var(--mute);margin-left:auto;font-size:13px}
+.hdr .car{color:var(--mute);transition:transform .2s;display:inline-block}
+.hdr.on .car{transform:rotate(90deg)}
+.rowwrap{background:var(--card);border-radius:18px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);transition:opacity .2s}
+.rowline{display:flex;align-items:center;gap:6px}
+.num{flex:none;width:30px;height:30px;margin-left:14px;border-radius:10px;background:var(--soft);display:grid;place-items:center;font-size:13px;font-weight:600;color:var(--ink2)}
+.s-ok .num{background:var(--okbg);color:var(--ok)}
+.s-no .num{background:var(--redbg);color:var(--red)}
+.row{flex:1;min-width:0;background:none;border:0;padding:14px 4px 14px 10px;text-align:left;font:inherit;color:inherit}
+.row b{font-weight:600;font-size:16.5px;letter-spacing:-.005em;display:block}
+.s-ok .row b,.s-no .row b{color:var(--ink2)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tg{font-size:12px;font-weight:500;padding:3px 9px;border-radius:999px;line-height:1.35;background:var(--soft);color:var(--ink2)}
 .tg.fri{background:var(--ambbg);color:var(--amb)}
-.tg.pay{background:var(--paybg);color:var(--pay)}
+.tg.pay,.tg.grp{background:var(--paybg);color:var(--pay)}
 .tg.warn{background:var(--warnbg);color:var(--warn)}
-.tg.sib{background:#e9f0ec;color:#2d5a47}
-.tg.new{background:#14332a;color:#fff}
-.tg.grp{background:#e6edf5;color:#2c4a6b}
-.tg.src{background:#f1f2ee;color:#77807a}
-.quick{display:flex;gap:6px;padding:9px 10px 9px 0}
-.quick button{width:52px;height:52px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:23px;line-height:1;color:#aeb3ac}
+.tg.new{background:var(--brand);color:var(--brand-ink)}
+.tg.st-ok{background:var(--okbg);color:var(--ok)}
+.tg.st-no{background:var(--redbg);color:var(--red)}
+.quick{display:flex;gap:8px;padding:10px 12px 10px 0}
+.quick button{width:50px;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--mute);display:grid;place-items:center;transition:all .15s}
+.quick button:hover{border-color:var(--mute);color:var(--ink)}
 .quick button[aria-pressed=true]{border-color:transparent;color:#fff}
 .quick .q-ok[aria-pressed=true]{background:var(--ok)}
 .quick .q-no[aria-pressed=true]{background:var(--red)}
-.body{padding:2px 14px 14px;border-top:1px solid var(--line)}
-.pl{font-size:15px;font-weight:500;padding:10px 12px;border-radius:9px;margin:10px 0 0}
+.body{padding:4px 16px 16px;border-top:1px solid var(--line)}
+.pl{font-size:14.5px;font-weight:500;padding:11px 13px;border-radius:12px;margin:12px 0 0}
 .pl.fri{background:var(--ambbg);color:var(--amb);font-weight:600}
 .pl.warn{background:var(--warnbg);color:var(--warn)}
 .pl.pay{background:var(--paybg);color:var(--pay)}
-.link{background:#e9f0ec;color:#14332a;border-radius:9px;padding:11px 12px;margin:10px 0 0;font-size:15px}
+.link{background:var(--brand-soft);color:var(--ink);border-radius:14px;padding:12px 14px;margin:12px 0 0;font-size:15px}
 .link b{font-weight:600;display:block;margin-bottom:4px}
-.link .gl{display:flex;flex-wrap:wrap;gap:2px 12px}
-.link .gl button{border:0;background:none;color:#14332a;font:inherit;text-decoration:underline;padding:4px 0;text-align:left}
-.link .ga{display:flex;gap:8px;margin-top:8px}
-.link .ga button{flex:1;border:0;border-radius:8px;padding:11px;font:600 15px/1 system-ui;color:#fff}
-.ga .all-ok{background:var(--ok)} .ga .all-no{background:var(--red)}
-.ph{margin-top:12px}
-.ph small{display:block;font-size:13px;color:var(--mute);margin-bottom:5px}
-.ph div{display:flex;flex-wrap:wrap;gap:6px}
-.ph a{text-decoration:none;border-radius:9px;font-weight:600;font-size:15px;padding:11px 13px}
-.ph a.call{background:var(--brand);color:#fff;font-size:16px}
-.ph a.m{background:#fff;color:var(--brand);border:1.5px solid var(--line);padding:10px 12px}
-.ph a.max{background:#1f6ff0;color:#fff;border-color:#1f6ff0}
-.none{color:var(--mute);font-size:15px;margin:12px 0 0}
-.more{width:100%;margin-top:14px;border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:14px;
-  font:600 16px/1 system-ui;color:var(--ink);text-align:left}
-.more span{float:right;color:var(--mute);font-weight:400}
-.cat{display:flex;gap:8px;align-items:baseline;margin-top:9px}
-.cat h4{margin:0;flex:0 0 82px;font-size:11px;font-weight:700;color:#98a09a;text-transform:uppercase;letter-spacing:.4px;line-height:1.5}
-.cat div{flex:1;display:flex;flex-wrap:wrap;gap:5px}
-.chip{display:inline-block;background:#eaefec;color:#2d3b34;border-radius:7px;padding:5px 9px;font-size:14px;line-height:1.25}
-.chip.core{background:var(--brand);color:#fff;font-weight:500}
-.src{font-size:12px;color:#98a09a;margin:12px 0 0;line-height:1.5}
-.empty{color:var(--mute);font-size:15px;margin:14px 0}
-.paysec{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px}
-.paysec h3{margin:0 0 4px;font-size:16px}
+.link .gl{display:flex;flex-wrap:wrap;gap:2px 14px}
+.link .gl button{border:0;background:none;color:var(--ink);font:inherit;text-decoration:underline;text-decoration-color:var(--mute);text-underline-offset:3px;padding:5px 0;text-align:left}
+.ph{margin-top:14px}
+.ph small{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.ph div{display:flex;flex-wrap:wrap;gap:8px}
+.ph a{text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;padding:11px 14px;display:inline-flex;align-items:center}
+.ph a.call{background:var(--brand);color:var(--brand-ink);font-size:16px}
+.ph a.m{background:var(--card);color:var(--ink);border:1px solid var(--line);padding:10px 13px}
+.ph a.max{background:var(--max);color:#fff;border-color:var(--max)}
+.none{color:var(--mute);font-size:15px;margin:14px 0 0}
+.more{width:100%;margin-top:14px;border:1px solid var(--line);background:var(--soft);border-radius:14px;padding:14px 16px;
+  font:600 15px/1 var(--f);color:var(--ink);text-align:left;display:flex;justify-content:space-between;align-items:center}
+.more span{color:var(--mute);font-weight:500;font-size:13px}
+.cat{display:flex;gap:10px;align-items:baseline;margin-top:10px}
+.cat h4{margin:0;flex:0 0 86px;font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.07em;line-height:1.6}
+.cat div{flex:1;display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-block;background:var(--soft);color:var(--ink2);border-radius:9px;padding:5px 10px;font-size:14px;line-height:1.25}
+.chip.core{background:var(--brand);color:var(--brand-ink);font-weight:500}
+.src{font-size:12.5px;color:var(--mute);margin:12px 0 0;line-height:1.5}
+.empty{color:var(--mute);font-size:15px;margin:18px 0;padding:34px 20px;text-align:center;background:var(--card);border:1px dashed var(--line);border-radius:18px}
+.paysec{background:var(--card);border-radius:18px;padding:18px;margin:8px 0 12px;box-shadow:var(--shadow)}
+.paysec h3{margin:0 0 4px;font:700 17px var(--d);letter-spacing:-.01em}
 .paysec p{margin:0 0 10px;color:var(--mute);font-size:14px}
 .paysec button{display:flex;width:100%;justify-content:space-between;gap:10px;border:0;border-top:1px solid var(--line);
-  background:none;padding:12px 0;font:500 16px/1.3 system-ui;color:var(--ink);text-align:left}
+  background:none;padding:13px 0;font:500 16px/1.3 var(--f);color:var(--ink);text-align:left}
 .paysec button span{color:var(--mute);font-size:13px;font-weight:400;text-align:right}
-footer{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px;padding-bottom:calc(env(safe-area-inset-bottom) + 10px);
-  background:rgba(236,238,233,.95);border-top:1px solid var(--line);backdrop-filter:blur(6px)}
-footer button{border:0;border-radius:11px;font:600 16px/1 system-ui;padding:16px}
-#rep{flex:1;background:var(--brand);color:#fff}
-#clr{background:#dfe1dc;color:#3d4247;padding-left:18px;padding-right:18px}
-.toast{position:fixed;left:12px;right:12px;bottom:86px;background:#14171a;color:#fff;padding:14px;border-radius:11px;font-size:15px;
-  text-align:center;opacity:0;transition:opacity .2s;pointer-events:none;z-index:20}
-.toast.on{opacity:1}
-:focus-visible{outline:2px solid #14332a;outline-offset:2px}
+
+/* ---------- низ ---------- */
+footer{position:fixed;left:0;right:0;bottom:0;z-index:15;padding:12px 16px calc(env(safe-area-inset-bottom) + 12px);
+  background:linear-gradient(to top,var(--bg) 65%,transparent);pointer-events:none}
+.dock{max-width:760px;margin:0 auto;display:flex;gap:10px;pointer-events:auto}
+footer button{border:0;border-radius:16px;font:600 16px/1 var(--f);height:54px;padding:0 18px}
+#rep{flex:1;background:var(--brand);color:var(--brand-ink);display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 12px 26px -14px var(--brand)}
+#rep .pill{background:rgba(255,255,255,.2);padding:3px 10px;border-radius:99px;font-size:13px}
+#clr{background:var(--card);color:var(--ink2);border:1px solid var(--line)}
+.toast{position:fixed;left:50%;transform:translate(-50%,8px);bottom:calc(env(safe-area-inset-bottom) + 84px);max-width:min(460px,calc(100% - 32px));width:max-content;
+  background:var(--ink);color:var(--bg);padding:13px 18px;border-radius:14px;font-size:15px;text-align:center;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:30}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.veil{position:fixed;inset:0;z-index:40;background:rgba(5,12,10,.45);backdrop-filter:blur(3px);display:flex;align-items:flex-end;justify-content:center;padding:16px}
+.sheet{width:100%;max-width:520px;background:var(--card);border-radius:22px;padding:22px;margin-bottom:env(safe-area-inset-bottom);box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
+.sheet h2{font:700 19px var(--d);margin:0 0 6px;letter-spacing:-.01em}
+.sheet p{margin:0 0 16px;color:var(--ink2);font-size:15px}
+.sheet .rw{display:flex;gap:10px}
+.sheet button{flex:1;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 15px var(--f)}
+.sheet .danger{background:var(--red);border-color:var(--red);color:#fff}
+
+@media (min-width:901px){
+  footer{left:max(272px,calc((100vw - 1280px)/2 + 272px))}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  header{position:static;background:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .side{display:none}
+  header{padding:calc(env(safe-area-inset-top) + 14px) 16px 12px}
+  main{padding:6px 16px 20px}
+  .tabs{display:flex}
+  h1{font-size:22px}
+  .big{font-size:28px}
+}
+@media (max-width:420px){
+  .num{display:none}
+  .row{padding-left:14px}
+  .quick{gap:6px;padding-right:10px}
+  .quick button{width:48px;height:48px}
+  .stats{gap:6px 14px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<div class="app">
+<aside class="side">
+  <div class="logo"><div class="logo-mark">КМЗ</div><div><b>Точки</b><span>Выездная торговля</span></div></div>
+  <div><div class="nl">Маршруты</div><nav class="nav" id="nav1"></nav></div>
+  <div><div class="nl">Разделы</div><nav class="nav" id="nav2"></nav></div>
+  <div class="side-foot" id="sfoot"></div>
+</aside>
+<div class="col">
 <header>
-  <div class="top"><b>Точки КМЗ</b><span id="today"></span></div>
+  <div class="top">
+    <div><div class="eyebrow" id="eyebrow">Точки КМЗ</div><h1 id="ttl">Маршрут 1</h1></div>
+    <span class="date" id="today"></span>
+  </div>
   <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="stats" id="stats">
+    <div class="big" id="pct">0%<small>обошёл</small></div>
+    <div>
+      <div class="sbar"><i class="ok" id="bOk"></i><i class="no" id="bNo"></i></div>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--ok)"></i>Взяли <b id="cOk">0</b></span>
+        <span><i class="dot" style="background:var(--red)"></i>Не берут <b id="cNo">0</b></span>
+        <span><i class="dot" style="background:var(--line)"></i>Осталось <b id="cLeft">0</b></span>
+      </div>
+    </div>
+  </div>
+  <div class="stat" id="stat" hidden></div>
   <div class="bar">
-    <input id="q" type="search" placeholder="Название или «пятница»" autocomplete="off">
+    <label class="srch"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Название точки или «пятница»" autocomplete="off" aria-label="Поиск"></label>
     <button id="hide" aria-pressed="false">Осталось</button>
   </div>
-  <div class="stat" id="stat"></div>
-  <div class="prog"><i id="prog"></i></div>
 </header>
 <main id="list"></main>
-<footer>
-  <button id="rep">Собрать отчёт</button>
+</div>
+</div>
+<footer><div class="dock">
+  <button id="rep">Собрать отчёт <span class="pill" id="rp"></span></button>
   <button id="clr">Новый день</button>
-</footer>
+</div></footer>
 <div class="toast" id="toast"></div>
+<div class="veil" id="veil" hidden><div class="sheet" role="dialog" aria-modal="true">
+  <h2>Начать новый день?</h2><p>Все отметки по всем маршрутам сотрутся. Если отчёт ещё не отправлен — сначала собери его.</p>
+  <div class="rw"><button class="danger" id="clrYes">Стереть отметки</button><button id="clrNo">Отмена</button></div>
+</div></div>
 <script>
 const DATA = {"routes": [{"id": "m1", "name": "Маршрут 1", "sub": "", "cl": [{"n": "Афанасьев Железнодорожная", "p": "8 989 025 16 61", "f": [["Кефир", "2,5% 900 пакет", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 46, "w": ["Игорь"], "note": ""}, {"n": "Афанасьев Обрывная", "p": "8 989 025 16 61", "f": [["Кефир", "2,5% 900 пакет", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 36, "w": ["Игорь"], "note": ""}, {"n": "Курпитко Старокорсунская", "p": "8 961 584 48 70", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "1% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 5 кг", 1], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Масло", "Сладко-сливочное 82,5 5 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 48, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Кутков Ставропольская", "p": "в группу", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 1], ["Молоко", "3,2% 900 пакет", 1], ["Молоко", "3,2% 950 бутылка", 1], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 1], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Кисломолочное", "Снежок 2,5% 500", 0], ["Сметана", "20% 300 стакан Молодея", 1], ["Сметана", "20% 400 пакет Молодея", 1], ["Сметана", "20% 200 стакан Молодея", 1], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Творог", "5% 3 кг", 0], ["Творог", "9% 3 кг", 0], ["Творог", "9% 180 г ГОСТ", 0], ["Крем с йогуртом", "Вишня 0,5 кг", 0], ["Крем с йогуртом", "Киви 0,5 кг", 0], ["Крем с сухофруктами", "Курага 500 г", 0], ["Крем с сухофруктами", "Изюм 500 г", 0], ["Крем с сухофруктами", "Вишня 500 г", 0], ["Сыр", "Крестьянский вес", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 в/с 180 г", 0], ["Масло", "72,5 180 г", 0]], "t": 48, "w": [], "note": "", "pay": "Вс — платёжка"}, {"n": "Кутков Ставского", "p": "в группу", "f": [["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 300 стакан Молодея", 1], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "9% 3 кг", 1], ["Творог", "9% 180 г ГОСТ", 0], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Крем с сухофруктами", "Вишня 500 г", 0], ["Крем с сухофруктами", "Курага 500 г", 0], ["Крем с сухофруктами", "Изюм 500 г", 0], ["Сыр", "Крестьянский вес", 1], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 в/с 180 г", 0]], "t": 48, "w": [], "note": "", "pay": "Вс — платёжка"}, {"n": "Кутков Старокорсунская", "p": "в группу", "f": [["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 1], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 1], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Кисломолочное", "Снежок 2,5% 500", 0], ["Сметана", "20% 300 стакан Молодея", 1], ["Сметана", "20% 200 стакан Молодея", 1], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Творог", "9% 3 кг", 0], ["Творог", "5% 3 кг ГОСТ", 0], ["Крем с сухофруктами", "Изюм 500 г", 0], ["Крем с сухофруктами", "Курага 500 г", 0], ["Сыр", "Крестьянский вес", 1], ["Масло", "82,5 180 г УМ", 0]], "t": 34, "w": [], "note": "", "pay": "Вс — платёжка"}, {"n": "Шанталий", "p": "8 961 500 59 24", "f": [["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Сыр", "Брынза вакуум", 1], ["Масло", "82,5 180 г УМ", 0]], "t": 2, "w": [""], "note": "", "fri": 1}]}, {"id": "m2", "name": "Маршрут 2", "sub": "", "cl": [{"n": "Арустамян", "p": "8 918 232 30 88\n8 918 324 11 11", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% 300 стакан Молодея", 1], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Творог", "5% 3 кг", 1]], "t": 48, "w": ["Лада", "продавец Мария"], "note": ""}, {"n": "Гриднев", "p": "8 928 275 33 40", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 1], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "9% 3 кг ГОСТ", 0], ["Крем с творогом", "Фермерский 5 кг", 1], ["Крем с творогом", "Успенский №9 5 кг", 0], ["Сыр", "Сельский вес", 1], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "t": 45, "w": ["Елена"], "note": ""}, {"n": "Джалавян Московская", "p": "8 961 850 65 13", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Крем с творогом", "Фермерский 3 кг", 0], ["Крем с творогом", "Успенский №9 5 кг", 0], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Сыр", "Крестьянский вес", 0], ["Масло", "72,5 в/с 180 г", 0]], "t": 44, "w": ["Оксана"], "note": ""}, {"n": "Дубинина", "p": "8 928 255 54 95\n8 928 617 77 22", "f": [["Кефир", "1% 950 бутылка", 1], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Крем с творогом", "Фермерский 4 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "t": 37, "w": ["", "Саша"], "note": ""}, {"n": "Дуюнова Тепличная", "p": "8 960 487 21 01\n8 952 851 89 72", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 1], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Сыр", "Сельский вес", 1], ["Сыр", "Брынза круг ведро", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 47, "w": ["продавец Елена", "продавец Юлия"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Дуюнова Тихая", "p": "8 962 880 66 62", "f": [["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Сыр", "Сельский вес", 0], ["Сыр", "Брынза круг ведро", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "t": 22, "w": ["Татьяна"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Есаян Виталий", "p": "8 989 836 42 27", "f": [["Крем с творогом", "Фермерский 3 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 0], ["Сыр", "Сельский вес", 0]], "t": 32, "w": [""], "note": ""}, {"n": "Есаян Регина", "p": "8 989 836 54 35", "f": [["Кисломолочное", "Йогурт клубника 3 кг", 0], ["Кисломолочное", "Йогурт вишня 3 кг", 0], ["Кисломолочное", "Йогурт персик 3 кг", 0], ["Сметана", "20% ведро 3 кг", 0], ["Крем с творогом", "Фермерский 3 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Киви 2,5 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Крем с йогуртом", "Манго 2,5 кг", 0], ["Сыр", "Сельский вес", 0], ["Сыр", "Осетинский 1,7 кг", 0]], "t": 47, "w": ["магазин на Комарова"], "note": ""}, {"n": "Зигора", "p": "8 988 386 71 81\n8 995 225 59 02", "f": [["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "9% 3 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Сыр", "Сулугуни закупной", 0], ["Сыр", "Сулугуни КМЗ", 0], ["Сыр", "Крестьянский 300 г", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 180 г УМ", 0]], "t": 39, "w": ["Сергей", "Тамара"], "note": ""}, {"n": "Каграманова Арбатская", "p": "8 918 343 97 64", "f": [["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 1], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Крем с творогом", "Фермерский 3 кг", 0], ["Сыр", "Сулугуни закупной", 0], ["Сыр", "Сулугуни КМЗ", 0]], "t": 47, "w": ["Нонна"], "note": ""}, {"n": "Карсаева", "p": "8 918 481 63 57", "f": [["Крем с творогом", "Фермерский 4 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 1]], "t": 17, "w": ["Татьяна Леонидовна"], "note": ""}, {"n": "Клочун", "p": "8 978 598 14 57\n8 999 480 83 81", "f": [["Сметана", "20% ведро 3 кг", 0], ["Творог", "5% 3 кг", 1], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Масло", "72,5 180 г", 0]], "t": 31, "w": ["", "продавец Гульнара"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Курпитко Кореновск Мира", "p": "8 961 584 48 70", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 40, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Кореновская", "p": "8 961 584 48 70", "f": [["Молоко", "3,2% 900 пакет", 0], ["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Крем с йогуртом", "Малина 2,5 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с сухофруктами", "Вишня 3 кг", 0], ["Сыр", "Крестьянский вес", 1]], "t": 46, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Южный", "p": "8 961 584 48 70", "f": [["Сметана", "20% ведро 3 кг", 1], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Творог", "5% 5 кг", 1], ["Сыр", "Крестьянский вес", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 180 г УМ", 0]], "t": 26, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Кутявина Краеведа Соловьева", "p": "8 996 410 61 17", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Кисломолочное", "Снежок 2,5% 500", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Крем с творогом", "Фермерский 3 кг", 1], ["Масло", "82,5 180 г УМ", 0]], "t": 12, "w": ["Кравченко Марина — прежний владелец"], "note": ""}, {"n": "Кутявина Тепличная", "p": "8 996 410 61 17", "f": [["Молоко", "2,5% 950 бутылка", 1], ["Молоко", "3,2% 950 бутылка", 1], ["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Кисломолочное", "Снежок 2,5% 500", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Крем с творогом", "Фермерский 3 кг", 1], ["Масло", "72,5 в/с 180 г", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 8, "w": ["Кравченко Марина — прежний владелец"], "note": ""}, {"n": "Логвина", "p": "8 918 092 53 64", "f": [["Творог", "9% 5 кг", 0], ["Крем с творогом", "Успенский №9 4 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Сыр", "Крестьянский вес", 1]], "t": 30, "w": ["Татьяна"], "note": ""}, {"n": "Мамбетов", "p": "8 918 331 33 34", "f": [["Сметана", "20% ведро 3 кг", 1], ["Крем с творогом", "Успенский №9 4 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Крем с творогом", "Фермерский 4 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 0]], "t": 44, "w": ["Руслан"], "note": "", "ns": 1}, {"n": "Марукян", "p": "8 918 083 81 28", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0]], "t": 17, "w": [""], "note": ""}, {"n": "Молов Покрышкина", "p": "8 918 481 65 57", "f": [["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Фермерский 5 кг", 0], ["Сыр", "Крестьянский вес", 0]], "t": 31, "w": ["Елена"], "note": ""}, {"n": "Саркисян Сережа", "p": "8 918 945 30 06", "f": [["Молоко", "3,2% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 0], ["Крем с творогом", "Фермерский 3 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Сыр", "Крестьянский вес", 0], ["Сыр", "Российский Курск", 0], ["Сыр", "Сметанковый Курск", 0], ["Масло", "82,5 180 г УМ", 0], ["Спред", "72,5% 5 кг", 0]], "t": 42, "w": ["Людмила"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Стельмухова", "p": "8 964 891 48 98", "f": [["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Фермерский 5 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 0], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с йогуртом", "Малина 2,5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Крем с йогуртом", "Киви 2,5 кг", 0], ["Крем с йогуртом", "Манго 2,5 кг", 0], ["Сыр", "Сельский вес", 0]], "t": 34, "w": ["Галина"], "note": ""}, {"n": "Щеглов", "p": "8 918 432 10 96", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 950 бутылка", 1], ["Кефир", "2,5% 900 пакет", 1], ["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Фермерский 5 кг", 1], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 48, "w": ["Елена Александровна"], "note": ""}, {"n": "Щёлокова", "p": "8 918 331 33 34", "w": [""], "note": "", "ns": 1}]}, {"id": "m3", "name": "Маршрут 3", "sub": "", "cl": [{"n": "Акопян", "p": "8 918 180 35 17", "f": [["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 1], ["Сметана", "20% 400 пакет Молодея", 0]], "t": 35, "w": ["номер для заявок"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Афанасьев 1 мая", "p": "8 989 025 16 61", "f": [["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 1], ["Творог", "5% 3 кг", 0]], "t": 32, "w": ["Игорь"], "note": ""}, {"n": "Афанасьев Героев Разведчиков", "p": "8 989 025 16 61", "f": [["Кефир", "2,5% 900 пакет", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 48, "w": ["Игорь"], "note": ""}, {"n": "Бондаренко", "p": "8 918 276 35 86", "f": [["Крем с творогом", "Фермерский 4 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 1]], "t": 36, "w": ["Елена"], "note": ""}, {"n": "Векуа", "p": "8 977 024 95 88\n8 905 389 91 36", "f": [["Сметана", "20% ведро 3 кг", 1], ["Творог", "9% 5 кг", 1], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 43, "w": ["", "продавец Галина"], "note": ""}, {"n": "Денисенко", "p": "8 961 591 56 38", "f": [["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 в/с 180 г", 0]], "t": 16, "w": ["Ия"], "note": "", "fri": 1}, {"n": "Джалавян Зиповская", "p": "8 961 850 65 13", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Сыр", "Крестьянский вес", 0]], "t": 46, "w": ["Оксана"], "note": ""}, {"n": "Карапетян Давид", "p": "8 908 683 42 48", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 0], ["Творог", "9% 3 кг", 1], ["Творог", "5% 3 кг", 0], ["Творог", "5% 5 кг", 0]], "t": 46, "w": ["Аревик"], "note": ""}, {"n": "Кунгуров Достоевского", "p": "8 918 542 68 07", "f": [["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 0], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 0], ["Сыр", "Крестьянский вес", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 30, "w": ["Людмила"], "note": "", "pay": "Вс — отгрузка только после оплаты"}, {"n": "Кунгуров Репина", "p": "8 900 272 11 19", "f": [["Сметана", "20% ведро 3 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Сыр", "Сельский вес", 1]], "t": 16, "w": ["Ольга"], "note": "", "pay": "Вс — отгрузка только после оплаты", "fri": 1}, {"n": "Курпитко Героев Разведчиков", "p": "8 918 990 59 59", "f": [["Молоко", "3,2% 900 пакет", 0], ["Сметана", "20% ведро 3 кг", 1], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Творог", "5% 5 кг", 1], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с сухофруктами", "Изюм 3 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Брынза вес", 0], ["Сыр", "Сулугуни КМЗ", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 48, "w": ["Света"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Домбайская", "p": "8 918 990 59 59", "f": [["Сметана", "20% ведро 3 кг", 0], ["Творог", "5% 3 кг", 1], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 42, "w": ["Света"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Зиповская", "p": "8 961 584 48 70", "f": [["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0], ["Сыр", "Голландский Курск", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 25, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Микушин Алексей Владимирович", "p": "8 989 813 10 98", "f": [["Сыр", "Крестьянский вес", 0], ["Сыр", "Сельский вес", 0]], "t": 3, "w": [""], "note": ""}, {"n": "Оводова Черкасская", "p": "8 961 500 75 82", "f": [["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 1], ["Крем с творогом", "Успенский №9 5 кг", 1], ["Крем с творогом", "Фермерский 5 кг", 1], ["Сыр", "Сельский вес", 1], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "t": 40, "w": ["Оксана"], "note": "", "pay": "Вс — отгрузка только после оплаты"}, {"n": "Очерет Героев Разведчиков", "p": "8 918 656 50 81", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 1], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Творог", "9% 3 кг", 0], ["Крем с творогом", "Фермерский 3 кг", 0], ["Сыр", "Сметанковый Курск", 0], ["Сыр", "Сливочный Курск", 0]], "t": 37, "w": ["Ира"], "note": ""}, {"n": "Смирнова", "p": "8 918 272 67 80", "w": [""], "note": ""}, {"n": "Соколов Александр Викторович 40 лет Победы", "p": "8 929 842 99 68", "f": [["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "2,5% 900 пакет", 0], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Творог", "5% 3 кг", 1], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 44, "w": [""], "note": ""}, {"n": "Соколов Александр Викторович Героев Разведчиков", "p": "8 993 325 41 92", "f": [["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Крем с творогом", "Фермерский 4 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 1]], "t": 11, "w": ["Лена — только звонить"], "note": ""}, {"n": "Соколова Светлана Викторовна", "p": "8 938 507 80 58", "f": [["Крем с творогом", "Фермерский 5 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 0], ["Крем со сметаной", "Кубаночка 750 г", 0], ["Сыр", "Сельский вес", 0]], "t": 14, "w": [""], "note": ""}, {"n": "Ступников Корякина", "p": "8 918 180 70 07", "f": [["Крем с творогом", "Фермерский 4 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 1]], "t": 11, "w": ["Виталий"], "note": ""}, {"n": "Фабрика / Безе / Сельдерей", "p": "8 928 259 40 40", "f": [["Творог", "5% 3 кг ГОСТ", 0], ["Крем с творогом", "Фермерский 3 кг", 0], ["Крем с творогом", "Фермерский 4 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Сыр", "Сельский вакуум", 0]], "t": 122, "w": ["Вячеслав"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Харцызов Промышленная", "p": "8 991 417 73 12", "f": [["Крем с творогом", "Фермерский 5 кг", 1]], "t": 31, "w": [""], "note": ""}, {"n": "Храпенкова", "p": "8 918 434 48 96", "f": [["Молоко", "2,5% 950 бутылка", 1], ["Молоко", "3,2% 950 бутылка", 1], ["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 1], ["Кефир", "1% 950 бутылка", 1], ["Кисломолочное", "Снежок 2,5% 500", 1], ["Сметана", "20% 400 пакет Молодея", 1], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Творог", "5% 5 кг", 1], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем с творогом", "Успенский №9 5 кг", 0], ["Крем с творогом", "Фермерский 5 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0], ["Сыр", "Российский Курск", 0], ["Сыр", "Голландский Курск", 0], ["Сыр", "Сулугуни закупной", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 1], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 180 г УМ", 0], ["Спред", "72,5% 5 кг", 1]], "t": 16, "w": ["Люда"], "note": "", "pay": "Вс — скинуть на оплату", "fri": 1}, {"n": "Шунеева", "p": "8 918 323 95 93", "f": [["Молоко", "2,5% 900 пакет", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем со сметаной", "Кубаночка 750 г", 0], ["Сыр", "Сметанковый Курск", 0], ["Сыр", "Сливочный Курск", 0]], "t": 22, "w": ["Оксана"], "note": ""}, {"n": "Элитколбасы Восточно-Кругликовская", "p": "8 918 351 14 88", "w": [""], "note": ""}, {"n": "Элитколбасы Генерала Трошева", "p": "8 918 351 14 88", "w": [""], "note": ""}]}, {"id": "m4", "name": "Маршрут 4", "sub": "", "cl": [{"n": "Акимов", "p": "8 918 398 90 02", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг ГОСТ", 1], ["Сыр", "Крестьянский вес", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "t": 47, "w": ["Павел"], "note": ""}, {"n": "Афанасьев Валерия Гассия", "p": "8 989 025 16 61", "f": [["Кефир", "2,5% 900 пакет", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 47, "w": ["Игорь"], "note": ""}, {"n": "Буна", "p": "8 989 293 38 86", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Сыр", "Крестьянский вакуум", 0]], "t": 28, "w": ["Людмила"], "note": ""}, {"n": "Курпитко Знаменский", "p": "8 961 584 48 70", "f": [["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "5% 3 кг", 1], ["Крем с сухофруктами", "Вишня 3 кг", 0], ["Сыр", "Крестьянский вес", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 37, "w": ["Оля"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Карасунский ВО", "p": "8 938 429 77 39", "f": [["Сыр", "Крестьянский вес", 1]], "t": 14, "w": ["заказ, производство"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Уральская", "p": "8 989 836 55 41\n8 918 172 65 36", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Сыр", "Крестьянский 300 г", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 43, "w": ["Галя", "Марина"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Кутков Агроном", "p": "в группу", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Кисломолочное", "Снежок 2,5% 500", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "9% 3 кг", 0], ["Творог", "5% 3 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Масло", "72,5 180 г", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 36, "w": [], "note": "", "pay": "Вс — платёжка"}, {"n": "Чепуркова", "p": "8 938 493 46 35", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 0], ["Творог", "9% 3 кг", 0], ["Творог", "5% 3 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с йогуртом", "Киви 2,5 кг", 0], ["Крем с йогуртом", "Манго 2,5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Крем с йогуртом", "Малина 2,5 кг", 0], ["Сыр", "Брынза вакуум", 0]], "t": 20, "w": ["Кристина"], "note": ""}]}, {"id": "m5", "name": "Маршрут 5", "sub": "", "cl": [{"n": "Афанасьев Казбекская", "p": "8 989 025 16 61", "f": [["Кефир", "2,5% 900 пакет", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 38, "w": ["Игорь"], "note": ""}, {"n": "Еньшина Чекистов", "p": "8 918 016 21 21", "f": [["Кефир", "2,5% 900 пакет", 0], ["Крем с творогом", "Фермерский 5 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни закупной", 0], ["Сыр", "Сулугуни КМЗ", 0], ["Сыр", "Осетинский 1,7 кг", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 48, "w": ["Олеся"], "note": "", "pay": "Вс — скинуть на оплату"}, {"n": "Курпитко Карасунская", "p": "8 918 990 59 59", "f": [["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Творог", "9% 3 кг", 1], ["Крем с йогуртом", "Киви 2,5 кг", 0], ["Крем с йогуртом", "Персик 2,5 кг", 0], ["Крем с йогуртом", "Вишня 2,5 кг", 0], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Крем с йогуртом", "Малина 2,5 кг", 0], ["Крем с сухофруктами", "Курага 3 кг", 0], ["Крем с сухофруктами", "Вишня 3 кг", 0], ["Крем с сухофруктами", "Изюм 3 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сливочный Курск", 0], ["Сыр", "Российский Курск", 0], ["Сыр", "Сметанковый Курск", 0], ["Сыр", "Мраморный Курск", 0], ["Сыр", "Тильзитер Курск", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 180 г УМ", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 48, "w": ["Света"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Кутков Тургенева", "p": "в группу", "f": [["Молоко", "3,2% 900 пакет", 1], ["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Творог", "9% 3 кг", 1], ["Крем с сухофруктами", "Изюм 500 г", 0], ["Крем с сухофруктами", "Курага 500 г", 0], ["Сыр", "Крестьянский вакуум КРУГ", 0], ["Сыр", "Крестьянский вес", 0], ["Масло", "72,5 в/с 180 г", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 33, "w": [], "note": "", "pay": "Вс — платёжка"}, {"n": "Лопатина", "p": "8 918 293 07 88", "f": [["Молоко", "2,5% 950 бутылка", 1], ["Молоко", "3,2% 950 бутылка", 1], ["Кефир", "1% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Крем с йогуртом", "Вишня 0,5 кг", 0], ["Крем с йогуртом", "Малина 0,5 кг", 0], ["Крем с йогуртом", "Киви 0,5 кг", 0], ["Крем с йогуртом", "Манго 0,5 кг", 0], ["Крем с йогуртом", "Персик 0,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 0,5 кг", 0], ["Крем с сухофруктами", "Вишня 500 г", 0], ["Крем с сухофруктами", "Курага 500 г", 0], ["Крем с сухофруктами", "Изюм 500 г", 0]], "t": 22, "w": ["Ульяна"], "note": ""}, {"n": "Людэ Жанна", "p": "8 953 088 94 39\n8 962 879 03 05", "f": [["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Творог", "9% 180 г ГОСТ", 0], ["Крем с творогом", "Успенский №18 4 кг", 1], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Сыр", "Сельский вес", 0], ["Сыр", "Брынза вес", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0], ["Спред", "72,5% 5 кг", 0]], "t": 47, "w": ["Наташа", ""], "note": ""}, {"n": "Молов Минская", "p": "8 918 981 77 91", "f": [["Крем с творогом", "Фермерский 5 кг", 1], ["Сыр", "Крестьянский вес", 0]], "t": 25, "w": ["Нинар"], "note": ""}, {"n": "Титаренко Диалог", "p": "8 961 500 12 44", "f": [["Творог", "9% 5 кг", 1], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 34, "w": [""], "note": ""}, {"n": "Титаренко Лерой", "p": "8 964 906 11 89", "f": [["Творог", "9% 5 кг", 1], ["Масло", "Сладко-сливочное 82,5 5 кг", 1]], "t": 32, "w": ["Шушана"], "note": ""}, {"n": "Шевчук Лузана", "p": "8 918 033 54 11\n8 928 664 59 83", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Крем с творогом", "Успенский №9 4 кг", 0], ["Крем с творогом", "Успенский №9 5 кг", 0], ["Крем с творогом", "Фермерский 5 кг", 0], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 0], ["Сыр", "Крестьянский 300 г", 0], ["Сыр", "Тильзитер Курск", 0], ["Сыр", "Нити Особый", 0], ["Сыр", "Сметанковый Курск", 0], ["Масло", "82,5 180 г УМ", 0], ["Масло", "72,5 180 г", 0], ["Масло", "72,5 в/с 180 г", 0]], "t": 40, "w": ["Лариса", "Елена"], "note": "", "pay": "Вс — платёжка"}, {"n": "Шевчук Чекистов", "p": "8 918 129 18 97\n8 918 420 32 55", "f": [["Молоко", "2,5% 900 пакет", 1], ["Молоко", "3,2% 900 пакет", 1], ["Кефир", "2,5% 900 пакет", 1], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Крем с творогом", "Успенский №9 5 кг", 0], ["Крем с творогом", "Фермерский 5 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 1], ["Крем с йогуртом", "Вишня 0,5 кг", 0]], "t": 47, "w": ["Галина", "Лена"], "note": "", "pay": "Вс — платёжка"}]}, {"id": "sea", "name": "Побережье", "sub": "только пятница", "cl": [{"n": "Курпитко Афипский", "p": "8 918 376 83 76", "f": [["Сметана", "20% ведро 3 кг", 1], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 400 пакет Молодея", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "5% 5 кг", 1], ["Крем с йогуртом", "Клубника 2,5 кг", 0], ["Крем с йогуртом", "Лесные Ягоды 2,5 кг", 0], ["Сыр", "Крестьянский вес", 0]], "t": 15, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Северская", "p": "8 918 376 83 76", "f": [["Молоко", "3,2% 900 пакет", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 400 пакет Молодея", 1], ["Сметана", "20% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% ведро 3 кг", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Творог", "5% 5 кг", 1], ["Творог", "9% 5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Брынза круг ведро", 0]], "t": 13, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Абинск", "p": "8 918 376 83 76", "f": [["Сметана", "20% 180 стакан УМ", 1], ["Сметана", "20% 300 стакан УМ", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Масло", "Сладко-сливочное 82,5 5 кг", 1]], "t": 1, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Варениковская", "p": "8 918 376 83 76", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 900 пакет", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 900 пакет", 0], ["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% ведро 3 кг", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сливочный Курск", 0], ["Сыр", "Сулугуни КМЗ", 0], ["Сыр", "Тильзитер Курск", 0], ["Сыр", "Сметанковый Курск", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 8, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Крымск", "p": "8 918 376 83 76", "f": [["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 0], ["Сыр", "Брынза круг ведро", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 16, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Новороссийск Сипягина", "p": "8 918 376 83 76", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 1], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Российский Курск", 0], ["Сыр", "Сливочный Курск", 0], ["Сыр", "Тильзитер Курск", 0], ["Масло", "72,5 в/с 180 г", 0]], "t": 14, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Новороссийск Пионерская", "p": "8 918 376 83 76", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "20% ведро 3 кг", 1], ["Сметана", "20% 180 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан Молодея", 0], ["Сметана", "20% 200 стакан Молодея", 0], ["Творог", "5% 3 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Брынза вес", 0], ["Сыр", "Тильзитер Курск", 0], ["Сыр", "Сливочный Курск", 0], ["Сыр", "Мраморный Курск", 0], ["Сыр", "Голландский Курск", 0], ["Сыр", "Сметанковый Курск", 0], ["Масло", "Сладко-сливочное 82,5 5 кг", 0]], "t": 17, "w": ["Анна"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Темрюк Ленина", "p": "8 938 403 20 91", "f": [["Молоко", "2,5% 950 бутылка", 0], ["Молоко", "3,2% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Творог", "5% 5 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0]], "t": 16, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Темрюк 27 Сентября", "p": "8 938 403 20 91", "f": [["Молоко", "2,5% 900 пакет", 1], ["Кефир", "2,5% 950 бутылка", 1], ["Кефир", "1% 950 бутылка", 1], ["Кефир", "2,5% 900 пакет", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 180 стакан УМ", 0], ["Творог", "9% 5 кг", 0], ["Творог", "9% 3 кг", 0], ["Творог", "5% 3 кг", 0], ["Творог", "5% 5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Брынза вакуум", 0], ["Масло", "72,5 в/с 180 г", 0], ["Масло", "72,5 180 г УМ", 0], ["Масло", "82,5 180 г УМ", 0]], "t": 16, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Анапа Красноармейская", "p": "8 938 403 20 91", "f": [["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Творог", "5% 5 кг", 1], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0]], "t": 15, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Анапа Парковая", "p": "8 938 403 20 91", "f": [["Молоко", "3,2% 950 бутылка", 0], ["Молоко", "2,5% 950 бутылка", 0], ["Кефир", "2,5% 950 бутылка", 0], ["Кефир", "1% 950 бутылка", 0], ["Творог", "5% 5 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0]], "t": 14, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Анапская Мира", "p": "8 938 403 20 91", "f": [["Молоко", "3,2% 950 бутылка", 1], ["Кефир", "2,5% 950 бутылка", 0], ["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "5% 5 кг", 1], ["Крем с творогом", "Успенский №18 4 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Брынза вес", 0], ["Сыр", "Сулугуни КМЗ", 0]], "t": 14, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}, {"n": "Курпитко Супсех", "p": "8 938 403 20 91", "f": [["Сметана", "15% 300 стакан УМ", 0], ["Сметана", "20% 300 стакан УМ", 0], ["Творог", "5% 5 кг", 0], ["Творог", "5% 3 кг", 0], ["Сыр", "Крестьянский вес", 1], ["Сыр", "Сулугуни КМЗ", 0]], "t": 16, "w": ["Анастасия"], "note": "", "pay": "Акт сверки в ЭДО каждый месяц"}]}, {"id": "etc", "name": "Разовые", "sub": "", "cl": [{"n": "Галай", "p": "", "w": [], "t": 4, "r0": "Маршрут 3", "f": [["Сыр", "Сельский вакуум", 1]], "note": ""}, {"n": "Киракосова", "p": "8 900 264 40 82", "w": [""], "t": 14, "r0": "Маршрут 4", "f": [["Молоко", "2,5% 900 пакет", 0], ["Молоко", "3,2% 900 пакет", 0], ["Кефир", "2,5% 900 пакет", 0], ["Сыр", "Сельский вакуум", 0], ["Сыр", "Крестьянский вакуум КРУГ", 0], ["Масло", "82,5 180 г УМ", 0]], "note": ""}, {"n": "Кондрахина", "p": "", "w": [], "t": 6, "r0": "Ладожская", "f": [["Кисломолочное", "Ряженка 2,5% 450", 0], ["Сыр", "Сельский вес", 1], ["Спред", "72,5% 5 кг", 1]], "note": ""}, {"n": "Махов", "p": "8 960 472 85 81", "w": [""], "t": 7, "r0": "Маршрут 2", "f": [["Крем с творогом", "Фермерский 5 кг", 0], ["Крем со сметаной", "Успенская Новая 5 кг", 1]], "note": ""}, {"n": "Молов Ставропольская", "p": "", "w": [], "t": 7, "r0": "Маршрут 1", "f": [["Крем с творогом", "Фермерский 5 кг", 0]], "note": ""}, {"n": "Молов Яркая", "p": "", "w": [], "t": 8, "r0": "Маршрут 5", "f": [["Крем с творогом", "Успенский №18 4 кг", 0], ["Крем с творогом", "Фермерский 5 кг", 0]], "note": ""}, {"n": "Петроченко", "p": "8 960 486 46 96", "w": [""], "t": 4, "r0": "Маршрут 4", "f": [["Кефир", "2,5% 900 пакет", 1]], "note": ""}, {"n": "Садоян", "p": "8 918 996 36 47", "f": [["Крем с творогом", "Фермерский 5 кг", 1], ["Крем со сметаной", "Кубаночка 5 кг", 0]], "t": 12, "w": [""], "note": "", "r0": "Маршрут 2"}, {"n": "Саркисян Индустриальный", "p": "8 928 281 48 23", "w": [""], "t": 7, "r0": "Маршрут 2", "f": [["Крем с творогом", "Фермерский 3 кг", 1]], "note": ""}, {"n": "Храм Пашковский", "p": "", "w": [], "t": 6, "r0": "Маршрут 4", "f": [["Молоко", "3,2% 900 пакет", 1], ["Творог", "9% 5 кг", 0], ["Масло", "Крестьянское 72,5 в/с 5 кг", 0]], "note": ""}]}]};
 const $ = s => document.querySelector(s);
@@ -169,7 +294,7 @@ function clients(){
     return ALL.filter(c => norm(c.n).includes(q)).map(c => ({...c, r:c.rn}));
   }
   const r = TABS.find(x => x.id === tab);
-  if(r.id !== 'all') return r.cl.map(c => ({...c, r:r.name}));
+  if(r.id !== 'all') return r.cl.map((c, i) => ({...c, r:r.name, i:i+1}));
   const out = [];
   for(const g of DATA.routes){
     if(g.id === 'etc') continue;
@@ -181,17 +306,35 @@ function clients(){
   return out;
 }
 
+const C = 2*Math.PI*10;
+const ring = p => `<svg class="ring" viewBox="0 0 26 26"><circle class="b" cx="13" cy="13" r="10"/><circle class="o" cx="13" cy="13" r="10" stroke-dasharray="${C}" stroke-dashoffset="${C*(1-p)}" transform="rotate(-90 13 13)"/></svg>`;
+const leftOf = r => r.cl.filter(c => !mark(c.n).s).length;
 function drawTabs(){
-  $('#tabs').innerHTML = TABS.map(r =>
-    `<button class="tab" role="tab" aria-selected="${r.id===tab && !query}" data-t="${r.id}">${r.name}${r.sub?`<i>${r.sub}</i>`:''}</button>`).join('');
+  $('#tabs').innerHTML = TABS.map(r => { const l = r.cl.length ? leftOf(r) : 0;
+    return `<button class="tab" role="tab" aria-selected="${r.id===tab && !query}" data-t="${r.id}">${r.name}${r.sub?`<i>${r.sub}</i>`:''}${l && r.id!=='all' ? `<i>${l}</i>`:''}</button>`; }).join('');
+  const nb = r => { const n = r.cl.length, l = n ? leftOf(r) : 0;
+    const ic = r.id==='pay' ? '<span class="ring"></span>' : n ? ring((n-l)/n) : '';
+    return `<button data-t="${r.id}" aria-selected="${r.id===tab && !query}">${ic}<span class="t">${r.name}${r.sub?`<small>${r.sub}</small>`:''}</span>${n?`<span class="n">${l||'✓'}</span>`:''}</button>`; };
+  $('#nav1').innerHTML = TABS.filter(r => /^m\d|^sea$/.test(r.id)).map(nb).join('');
+  $('#nav2').innerHTML = TABS.filter(r => !/^m\d|^sea$/.test(r.id)).map(nb).join('');
+  const r = TABS.find(x => x.id === tab);
+  $('#ttl').textContent = query ? 'Поиск' : r.name;
+  $('#eyebrow').textContent = query ? 'по всем маршрутам' : (r.sub || (r.id==='pay' ? 'оплаты и акты' : 'Точки КМЗ'));
 }
 function drawProgress(){
   const r = TABS.find(x => x.id === tab);
-  if(r.id === 'pay'){ $('#stat').textContent = 'Напоминания по оплатам и актам сверки'; $('#prog').style.width = '0'; return; }
+  const all = DATA.routes.flatMap(g => g.cl), dn = all.filter(c => mark(c.n).s).length;
+  $('#rp').textContent = dn ? dn : '';
+  $('#rp').hidden = !dn;
+  $('#sfoot').textContent = `За день отмечено ${dn} из ${MAIN.length}`;
+  if(r.id === 'pay' || !r.cl.length){ $('#stats').hidden = true; $('#stat').hidden = false; $('#stat').textContent = r.id==='pay' ? 'Напоминания по оплатам и актам сверки' : ''; return; }
+  $('#stats').hidden = false; $('#stat').hidden = true;
   const took = r.cl.filter(c => mark(c.n).s === 'ok').length;
-  const done = r.cl.filter(c => mark(c.n).s).length;
-  $('#prog').style.width = (r.cl.length ? done/r.cl.length*100 : 0)+'%';
-  $('#stat').textContent = r.cl.length ? `обошёл ${Math.round(done/r.cl.length*100)}% · взяли ${took} · осталось ${r.cl.length-done}` : '';
+  const no = r.cl.filter(c => mark(c.n).s === 'no').length;
+  const n = r.cl.length, done = took + no;
+  $('#pct').innerHTML = `${Math.round(done/n*100)}%<small>обошёл</small>`;
+  $('#bOk').style.width = took/n*100+'%'; $('#bNo').style.width = no/n*100+'%';
+  $('#cOk').textContent = took; $('#cNo').textContent = no; $('#cLeft').textContent = n - done;
 }
 
 function tags(c){
@@ -201,6 +344,8 @@ function tags(c){
   if(c.r0) t.push(`<span class="tg src">${esc(c.r0)}</span>`);
   const s = siblings(c).length;
   if(s) t.push(`<span class="tg sib">1 номер ×${s+1}</span>`);
+  const st = mark(c.n).s;
+  if(st) t.push(`<span class="tg st-${st}">${st==='ok'?'взяли':'не берёт'}</span>`);
   if(query) t.push(`<span class="tg src">${esc(c.r)}</span>`);
   return t.length ? `<span class="tags">${t.join('')}</span>` : '';
 }
@@ -257,10 +402,11 @@ function row(c){
   const m = mark(c.n);
   return `<div class="rowwrap ${m.s?'s-'+m.s:''}" id="c-${cid(c.n)}">
     <div class="rowline">
+      ${c.i ? `<span class="num">${c.i}</span>` : ''}
       <button class="row" data-open="${esc(c.n)}"><b>${esc(c.n)}</b>${tags(c)}</button>
       <div class="quick">
-        <button class="q-ok" data-s="ok" data-n="${esc(c.n)}" aria-pressed="${m.s==='ok'}" aria-label="Взял">✓</button>
-        <button class="q-no" data-s="no" data-n="${esc(c.n)}" aria-pressed="${m.s==='no'}" aria-label="Не взял">✕</button>
+        <button class="q-ok" data-s="ok" data-n="${esc(c.n)}" aria-pressed="${m.s==='ok'}" aria-label="Взял"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 10 17 19 7"/></svg></button>
+        <button class="q-no" data-s="no" data-n="${esc(c.n)}" aria-pressed="${m.s==='no'}" aria-label="Не взял"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
       </div>
     </div>
     ${openName===c.n ? card(c) : ''}
@@ -291,9 +437,16 @@ function draw(){
   if(tab === 'pay' && !query){ $('#list').innerHTML = payView(); return; }
   let list = clients();
   if(hideDone) list = list.filter(c => c.hdr || !mark(c.n).s || c.n === openName);
-  $('#list').innerHTML = list.length ? list.map(c => c.hdr
-      ? `<button class="hdr" data-fold="${c.rid}">${c.on?'▾':'▸'} ${esc(c.hdr)}<i>${c.info}</i></button>`
-      : row(c)).join('')
+  // на вкладке маршрута: сначала неотмеченные, отмеченные — ниже отдельным блоком
+  const split = tab !== 'all' && !query.trim();
+  let html;
+  if(split){
+    const open = list.filter(c => !mark(c.n).s), done = list.filter(c => mark(c.n).s);
+    html = open.map(row).join('') + (done.length ? `<div class="sec">Отмечено · ${done.length}</div>` + done.map(row).join('') : '');
+  } else html = list.map(c => c.hdr
+      ? `<button class="hdr${c.on?' on':''}" data-fold="${c.rid}"><span class="car">›</span> ${esc(c.hdr)}<i>${c.info}</i></button>`
+      : row(c)).join('');
+  $('#list').innerHTML = list.length ? html
     : `<p class="empty">${hideDone ? 'Все точки отмечены 👍' : 'Ничего не нашлось. Попробуй часть названия — «кутк», «анап» или «пятница».'}</p>`;
 }
 
@@ -308,7 +461,7 @@ function goTo(n){
 document.addEventListener('click', e => {
   const cp = e.target.closest('[data-copy]');
   if(cp){ const v = '+'+cp.dataset.copy; try{ navigator.clipboard.writeText(v); }catch(err){} toast('Номер '+v+' скопирован — если чата нет, найди по номеру'); }
-  const t = e.target.closest('.tab');
+  const t = e.target.closest('[data-t]');
   if(t){ tab = t.dataset.t; openName = null; openPos = null; query=''; $('#q').value=''; draw(); scrollTo(0,0); return; }
   const fd = e.target.closest('[data-fold]');
   if(fd){ const id = fd.dataset.fold; openRoutes.has(id) ? openRoutes.delete(id) : openRoutes.add(id); draw(); return; }
@@ -343,10 +496,14 @@ $('#rep').onclick = async () => {
   catch(e){ const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
   toast('Отчёт скопирован — вставь в MAX');
 };
-$('#clr').onclick = () => {
-  if(!confirm('Стереть все отметки и начать новый день?')) return;
+$('#clr').onclick = () => { $('#veil').hidden = false; };
+$('#clrNo').onclick = () => { $('#veil').hidden = true; };
+$('#veil').onclick = e => { if(e.target.id === 'veil') $('#veil').hidden = true; };
+$('#clrYes').onclick = () => {
+  $('#veil').hidden = true;
   state = {date: todayStr(), marks:{}}; save(); openName = null; draw(); toast('Отметки очищены');
 };
+document.addEventListener('keydown', e => { if(e.key === 'Escape') $('#veil').hidden = true; });
 
 draw();
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
