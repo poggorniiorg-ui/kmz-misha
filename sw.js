@@ -1,4 +1,4 @@
-const C='kmz-misha-v1';
+const C='kmz-misha-v2';
 self.addEventListener('install',e=>{self.skipWaiting();
   e.waitUntil(caches.open(C).then(c=>c.addAll(['./','./index.html','./manifest.json','./icon.png'])))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>
